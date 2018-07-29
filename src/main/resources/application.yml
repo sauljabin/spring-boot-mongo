@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      database: test
+      database: bookstore
       host: localhost
       port: 27017
-      username: test
-      password: test
+      username: springboot
+      password: springboot
