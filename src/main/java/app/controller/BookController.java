@@ -17,39 +17,37 @@ public class BookController {
 
     @GetMapping("/books")
     @ResponseBody
-    private List<Book> getAll() {
+    public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
     @GetMapping("/books/{id}")
     @ResponseBody
-    private Book get(@PathVariable String id) {
+    public Book get(@PathVariable String id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
 
     @DeleteMapping("/books/{id}")
     @ResponseBody
-    private void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id) {
         bookRepository.deleteById(id);
     }
 
     @PutMapping("/books/{id}")
     @ResponseBody
-    private Book edit(@PathVariable String id, @RequestBody Book book) {
+    public Book edit(@PathVariable String id, @RequestBody Book book) {
         bookRepository.findById(id)
                 .orElseThrow(ImpossibleToEditException::new);
 
         book.setObjectId(id);
-        bookRepository.save(book);
-        return book;
+        return bookRepository.save(book);
     }
 
     @PostMapping("/books")
     @ResponseBody
-    private Book save(@RequestBody Book book) {
-        bookRepository.save(book);
-        return book;
+    public Book save(@RequestBody Book book) {
+        return bookRepository.save(book);
     }
 
 }
