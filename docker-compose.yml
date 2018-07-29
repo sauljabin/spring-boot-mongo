@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  mongo:
+    image: mongo:4
+    restart: always
+    volumes:
+      - mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=default
+    ports:
+      - 27017:27017
+
+volumes:
+  mongo:
+    name: spring_boot_mongodb
