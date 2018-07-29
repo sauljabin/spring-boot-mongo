@@ -1,16 +1,19 @@
 clean:
 	@./gradlew clean
 
-run: db-up clean
-	@./gradlew bootRun
+run: db-up
+	@./gradlew clean bootRun
 
 jar:
-	@./gradlew bootJar
+	@./gradlew clean bootJar
+
+test:
+	@./gradlew clean cleanTest test
 
 db-up:
 	@docker-compose up -d mongo && sleep 5
 
-build:
+images: jar
 	@docker-compose build
 
 up:
@@ -30,4 +33,4 @@ delete:
 import-db:
 	@echo 'use bookstore\ndb.createUser({user:"springboot", pwd:"springboot", roles:["readWrite"]})' | docker exec -i $(shell docker-compose ps -q mongo) mongo admin -u root -p default
 
-init: delete db-up import-db down build
+init: delete db-up import-db down images

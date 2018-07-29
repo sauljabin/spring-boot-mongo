@@ -34,6 +34,12 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("junit:junit")
     testCompile("org.mockito:mockito-core")
-    testCompile ("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+    testCompile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
     testCompile("com.github.javafaker:javafaker:0.15")
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }

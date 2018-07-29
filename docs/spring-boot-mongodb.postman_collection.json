@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "391a3f7d-4bfb-4b65-9ec3-aa5c6ac29309",
+		"name": "spring-boot-mongodb",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "3c227347-b74d-41f2-9134-07dc91be56a8",
+			"name": "Actuator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "350aef8a-7dcf-4d5d-9075-4c31c881a397",
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "2a3a98bf-eb4e-4918-87ac-995dad001bc9",
+			"name": "Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "6c9027f6-f126-4746-ae52-26e2bbc65552",
+			"name": "Get all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "513eb7d4-9169-404f-b0bb-c17f4adff15a",
+			"name": "Save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Learning Agile\",\n\t\"description\": \"Understanding scrum, xp, lean and kanban\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "1e370d1b-0d85-45c6-896f-47b6e09b1ead",
+			"name": "Get one",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/books/5b5e3704857aba00013b9964",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"5b5e3704857aba00013b9964"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "46757f77-6302-4c11-bed5-41ec39269c5f",
+			"name": "Edit",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Learning Agile, Second Edition\",\n\t\"description\": \"Understanding scrum, xp, lean and kanban\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/5b5e3704857aba00013b9964",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"5b5e3704857aba00013b9964"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "fc749089-b5b1-43b9-a98d-5c33e4af7208",
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/books/5b5e3704857aba00013b9964",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"5b5e3704857aba00013b9964"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

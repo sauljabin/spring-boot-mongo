@@ -1,8 +1,16 @@
 spring:
   data:
     mongodb:
-      database: bookstore
       host: localhost
+      database: bookstore
       port: 27017
       username: springboot
       password: springboot
+
+---
+
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      host: mongo

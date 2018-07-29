@@ -12,6 +12,17 @@ services:
     ports:
       - 27017:27017
 
+  spring:
+    build:
+      context: .
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - 8080:8080
+
 volumes:
   mongo:
     name: spring_boot_mongodb
