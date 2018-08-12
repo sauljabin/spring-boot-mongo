@@ -3,3 +3,7 @@
 build/
 .directory
 out/
+/bin/
+.settings
+.classpath
+.project
