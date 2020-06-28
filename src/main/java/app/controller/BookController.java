@@ -12,8 +12,12 @@ import java.util.List;
 @RestController
 public class BookController {
 
+    private final BookRepository bookRepository;
+
     @Autowired
-    private BookRepository bookRepository;
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @GetMapping("/books")
     @ResponseBody

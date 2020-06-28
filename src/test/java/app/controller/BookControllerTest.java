@@ -1,124 +1,115 @@
 package app.controller;
 
-import app.exception.BookNotFoundException;
 import app.exception.ImpossibleToEditException;
 import app.model.Book;
 import app.repository.BookRepository;
-import com.github.javafaker.Faker;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.jeasy.random.EasyRandom;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BookControllerTest {
+class BookControllerTest {
 
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
-    @InjectMocks
     private BookController bookController;
-    @Mock
     private BookRepository bookRepository;
-    @Mock
-    private List<Book> expectedBooks;
-    @Mock
-    private Book expectedBook;
-    private Faker faker;
-    private String id;
+    private final EasyRandom random = new EasyRandom();
 
-    @Before
-    public void setUp() {
-        faker = new Faker();
-        id = faker.regexify("[a-z]{10}");
+    @BeforeEach
+    void setUp() {
+        bookRepository = mock(BookRepository.class);
+        bookController = new BookController(bookRepository);
     }
 
     @Test
-    public void shouldInvokeFindAll() {
-        doReturn(expectedBooks).when(bookRepository).findAll();
+    void shouldInvokeFindAll() {
+        List<Book> expectedBooks = emptyList();
+        when(bookRepository.findAll()).thenReturn(expectedBooks);
 
         List<Book> books = bookController.getAll();
 
         verify(bookRepository).findAll();
-        assertThat(books, is(expectedBooks));
+        assertThat(books).isEqualTo(expectedBooks);
     }
 
     @Test
-    public void shouldInvokeFindById() {
-        doReturn(Optional.of(expectedBook)).when(bookRepository).findById(anyString());
+    void shouldInvokeFindById() {
+        Book expectedBook = random.nextObject(Book.class);
+        when(bookRepository.findById(anyString())).thenReturn(Optional.of(expectedBook));
 
-        Book book = bookController.get(id);
+        Book book = bookController.get(expectedBook.getObjectId());
 
-        verify(bookRepository).findById(id);
-        assertThat(book, is(expectedBook));
+        verify(bookRepository).findById(expectedBook.getObjectId());
+        assertThat(book).isSameAs(expectedBook);
     }
 
     @Test
-    public void shouldThrowAnExceptionIfTheBookIsNotFound() {
-        exceptionRule.expect(BookNotFoundException.class);
-        exceptionRule.expectMessage("Book " + id + " not found");
+    void shouldThrowAnExceptionIfTheBookIsNotFound() {
+        String id = random.nextObject(String.class);
+        when(bookRepository.findById(anyString())).thenReturn(Optional.empty());
 
-        doReturn(Optional.empty()).when(bookRepository).findById(anyString());
+        Throwable throwable = catchThrowable(() -> bookController.get(id));
 
-        bookController.get(id);
+        assertThat(throwable).hasMessage("Book " + id + " not found");
     }
 
     @Test
-    public void shouldInvokeSave() {
-        doReturn(expectedBook).when(bookRepository).save(any());
-
+    void shouldInvokeSave() {
+        Book expectedBook = random.nextObject(Book.class);
+        when(bookRepository.save(any())).thenReturn(expectedBook);
         Book bookToSave = mock(Book.class);
+
         Book book = bookController.save(bookToSave);
 
         verify(bookRepository).save(bookToSave);
-        assertThat(book, is(expectedBook));
+        assertThat(book).isSameAs(expectedBook);
     }
 
     @Test
-    public void shouldInvokeSaveWhenEdit() {
-        doReturn(Optional.of(expectedBook)).when(bookRepository).findById(anyString());
-        doReturn(expectedBook).when(bookRepository).save(any());
+    void shouldInvokeSaveWhenEdit() {
+        Book expectedBook = random.nextObject(Book.class);
+        when(bookRepository.findById(anyString())).thenReturn(Optional.of(expectedBook));
+        when(bookRepository.save(any())).thenReturn(expectedBook);
 
         Book bookToSave = mock(Book.class);
-        Book book = bookController.edit(id, bookToSave);
+        Book book = bookController.edit(expectedBook.getObjectId(), bookToSave);
 
         verify(bookRepository).save(bookToSave);
-        assertThat(book, is(expectedBook));
+        assertThat(book).isSameAs(expectedBook);
     }
 
     @Test
-    public void shouldThrowAnExceptionIfTheBookIsNotFoundWhenEdit() {
-        exceptionRule.expect(ImpossibleToEditException.class);
+    void shouldThrowAnExceptionIfTheBookIsNotFoundWhenEdit() {
+        String id = random.nextObject(String.class);
+        Book expectedBook = random.nextObject(Book.class);
+        when(bookRepository.findById(anyString())).thenReturn(Optional.empty());
 
-        doReturn(Optional.empty()).when(bookRepository).findById(anyString());
+        Throwable throwable = catchThrowable(() -> bookController.edit(id, expectedBook));
 
-        bookController.edit(id, expectedBook);
+        assertThat(throwable).isInstanceOf(ImpossibleToEditException.class);
     }
 
     @Test
-    public void shouldSetCorrectIdReceiveBook() {
-        doReturn(Optional.of(expectedBook)).when(bookRepository).findById(anyString());
-        doReturn(expectedBook).when(bookRepository).save(any());
+    void shouldSetCorrectIdReceiveBook() {
+        String id = random.nextObject(String.class);
+        Book expectedBook = random.nextObject(Book.class);
+        when(bookRepository.findById(anyString())).thenReturn(Optional.of(expectedBook));
+        when(bookRepository.save(any())).thenReturn(expectedBook);
 
         Book bookToSave = Book.builder()
-                .title(faker.book().title())
                 .build();
 
         bookController.edit(id, bookToSave);
 
-        assertThat(bookToSave.getObjectId(), is(id));
+        assertThat(bookToSave.getObjectId()).isEqualTo(id);
     }
 
 }

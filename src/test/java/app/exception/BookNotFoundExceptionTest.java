@@ -1,26 +1,20 @@
 package app.exception;
 
-import com.github.javafaker.Faker;
-import org.junit.Before;
-import org.junit.Test;
+import org.jeasy.random.EasyRandom;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class BookNotFoundExceptionTest {
-
-    private Faker faker;
-
-    @Before
-    public void setUp() {
-        faker = new Faker();
-    }
+class BookNotFoundExceptionTest {
 
     @Test
-    public void shouldGetRightMessage() {
-        String id = faker.regexify("[a-z]{10}");
+    void shouldGetRightMessage() {
+        EasyRandom random = new EasyRandom();
+        String id = random.nextObject(String.class);
+
         BookNotFoundException bookNotFoundException = new BookNotFoundException(id);
-        assertThat(bookNotFoundException.getMessage(), is("Book " + id + " not found"));
+
+        assertThat(bookNotFoundException.getMessage()).isEqualTo("Book " + id + " not found");
     }
 
 }

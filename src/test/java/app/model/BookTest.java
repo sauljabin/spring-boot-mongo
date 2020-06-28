@@ -1,30 +1,19 @@
 package app.model;
 
-import com.github.javafaker.Faker;
-import org.junit.Before;
-import org.junit.Test;
+import org.jeasy.random.EasyRandom;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class BookTest {
-
-    private Faker faker;
-
-    @Before
-    public void setUp() {
-        faker = new Faker();
-    }
+class BookTest {
 
     @Test
-    public void shouldGetRestLink() {
-        String id = faker.regexify("[a-z]{10}");
+    void shouldGetRestLink() {
+        EasyRandom random = new EasyRandom();
 
-        Book book = Book.builder()
-                .objectId(id)
-                .build();
+        Book book = random.nextObject(Book.class);
 
-        assertThat(book.getLink(), is("/books/" + id));
+        assertThat(book.getLink()).isEqualTo("/books/" + book.getObjectId());
     }
 
 }

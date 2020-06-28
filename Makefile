@@ -1,36 +1,39 @@
 clean:
-	@./gradlew clean
+	./gradlew clean
 
 run: db-up
-	@./gradlew clean bootRun
+	./gradlew clean bootRun
 
 jar:
-	@./gradlew clean bootJar
+	./gradlew clean bootJar
 
 test:
-	@./gradlew clean cleanTest test
+	./gradlew clean cleanTest test
+
+it:
+	./gradlew clean cleanTest integrationTest
 
 db-up:
-	@docker-compose up -d mongo && sleep 5
+	docker-compose up -d mongo && sleep 5
 
 images: jar
-	@docker-compose build
+	docker-compose build
 
 up:
-	@docker-compose up -d && sleep 5
+	docker-compose up -d && sleep 5
 
 show:
-	@docker-compose ps
-	@echo '\nVolumes: ' && docker volume inspect spring_boot_mongodb  || true
+	docker-compose ps
+	echo '\nVolumes: ' && docker volume inspect spring_boot_mongodb  || true
 
 down:
-	@docker-compose stop
+	docker-compose stop
 
 delete:
-	@docker-compose rm -fsv
-	@docker volume rm spring_boot_mongodb || true
+	docker-compose rm -fsv
+	docker volume rm spring_boot_mongodb || true
 
 import-db:
-	@echo 'use bookstore\ndb.createUser({user:"springboot", pwd:"springboot", roles:["readWrite"]})' | docker exec -i $(shell docker-compose ps -q mongo) mongo admin -u root -p default
+	echo 'use bookstore\ndb.createUser({user:"springboot", pwd:"springboot", roles:["readWrite"]})' | docker exec -i $(shell docker-compose ps -q mongo) mongo admin -u root -p default
 
 init: delete db-up import-db down images
