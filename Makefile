@@ -20,7 +20,7 @@ images: jar
 	docker-compose build
 
 up:
-	docker-compose up -d && sleep 5
+	docker-compose up --build -d && sleep 5
 
 show:
 	docker-compose ps
