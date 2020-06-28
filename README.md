@@ -1,10 +1,5 @@
 ## Spring Boot and MongoDB Example
 
-## Docker Version
-
-- `docker-compose`: 1.17.1
-- `docker-compose.yml`: 3.4
-- `docker`: 18.06.0-ce
 
 ## Getting Started
 
