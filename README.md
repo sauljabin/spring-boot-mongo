@@ -1,5 +1,12 @@
 ## Spring Boot and MongoDB Example
 
+[Postman](https://www.postman.com/) Collection in [docs](docs).
+
+## Dependencies
+
+- [Docker](https://docs.docker.com/engine/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- Java 11
 
 ## Getting Started
 
@@ -9,7 +16,7 @@ make init up
 
 ## Commands
 
-`make images` creates containers
+`make image` creates containers
 
 `make up` runs the application (needs `init`)
 
@@ -32,3 +39,5 @@ make init up
 `make jar` makes the spring boot artifact
 
 `make test` runs all tests
+
+`make it` runs all integration tests
